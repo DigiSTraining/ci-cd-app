@@ -35,6 +35,11 @@ jobs:
       - run: |
           npm ci
           npm run build
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        env:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: DigiSTraining/ci-cd-app
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
