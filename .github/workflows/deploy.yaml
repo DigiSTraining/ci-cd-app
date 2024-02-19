@@ -34,12 +34,13 @@ jobs:
           node-version: 16
       - run: |
           npm ci
-          npm run build
+          npm test
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         env:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: DigiSTraining/ci-cd-app
+      - run: npm run build
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
