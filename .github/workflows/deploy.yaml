@@ -35,6 +35,12 @@ jobs:
       - run: |
           npm ci
           npm test
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: DigiSTraining/ci-cd-app
+      - run: npm run build
       - name: Check failure
         if: ${{ failure() }} #failure() will send notification on failure
         uses: Co-qn/google-chat-notification@releases/v1
@@ -42,12 +48,6 @@ jobs:
           name: Test failed
           url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
           status: ${{ job.status }}
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
-        env:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          slug: DigiSTraining/ci-cd-app
-      - run: npm run build
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
