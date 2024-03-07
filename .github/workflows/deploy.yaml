@@ -35,6 +35,13 @@ jobs:
       - run: |
           npm ci
           npm test
+      - name: Check failure
+        if: ${{ failure() }} #failure() will send notification on failure
+        uses: Co-qn/google-chat-notification@releases/v1
+        with:
+          name: Test failed
+          url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
+          status: ${{ job.status }}
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         env:
@@ -46,15 +53,3 @@ jobs:
         with:
           folder: build # The folder the action should deploy.
           ssh-key: ${{ secrets.DEPLOY_KEY }}
-  debug:
-    name: Check failure
-    needs: build-and-deploy
-    runs-on: ubuntu-latest
-    if: ${{ always() }} #failure() will send notification on failure
-    steps:
-      - name: Sanding the failure google chat notification
-        uses: Co-qn/google-chat-notification@releases/v1
-        with:
-          name: Build and Deploy
-          url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
-          status: ${{ job.status }}
