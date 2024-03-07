@@ -45,8 +45,8 @@ jobs:
         if: ${{ failure() }} #failure() will send notification on failure
         uses: Co-qn/google-chat-notification@releases/v1
         with:
-          name: Test failed
-          url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
+          name: Build failed
+          url: ${{ secrets.GOOGLE_SPACE_WEBHOOK }}
           status: ${{ job.status }}
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
